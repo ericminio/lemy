@@ -2,15 +2,19 @@ require "rspec"
 require 'chingu'
 
 require File.dirname(__FILE__) + '/../lib/game'
+require File.dirname(__FILE__) + '/../lib/lem'
 
 describe "Lem" do
 
-  before(:each) do
+  before(:all) do
     @game = Game.new
-    @lem = @game.lem
   end
 
-  after(:each) do
+  before(:each) do
+    @lem = Lem.new
+  end
+
+  after(:all) do
     @game.close
   end
 

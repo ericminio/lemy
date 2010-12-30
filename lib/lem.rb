@@ -1,5 +1,8 @@
 class Lem < Chingu::GameObject
 
+  def initialize(options = {})
+    super
+  end
 
   def stop_vertical_engine
     @engine_started = false

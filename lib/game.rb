@@ -20,7 +20,7 @@ class Game < Chingu::Window
         :text => "press (n) for next level", :size => 25, :x => 200, :y => 300, :color => Color::BLACK)
     center_text(@next_level_available_mention)
     @restart_mention = Chingu::Text.create(
-        :text => "END :) press (r) to restart", :size => 25, :x => 200, :y => 250)
+        :text => "press (r) to restart", :size => 25, :x => 200, :y => 250)
     center_text(@restart_mention)
 
     start
@@ -28,7 +28,7 @@ class Game < Chingu::Window
 
   def start
     @restart_mention.color = Color::BLACK
-    @levels = [Level2.new, Level1.new]
+    @levels                = [Level2.new, Level1.new]
     next_level
   end
 
@@ -56,11 +56,20 @@ class Game < Chingu::Window
 
     if @levels.size > 0
       @next_level_available_mention.color = Color::GREEN
-      self.input = {:escape => :exit, :n => :next_level}
+      self.input                          = {:escape => :exit, :n => :next_level}
     else
       @restart_mention.color = Color::GREEN
-      self.input = {:escape => :exit, :r => :start}
+      self.input             = {:escape => :exit, :r => :start}
     end
+  end
+
+  def level_lost
+    @title.text  = @level.title + ' lost'
+    @title.color = Color::RED
+    center_text(@title)
+    
+    @restart_mention.color = Color::RED
+    self.input             = {:escape => :exit, :r => :start}
   end
 
   def center_text(text)

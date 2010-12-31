@@ -5,17 +5,25 @@ class Lem < Chingu::GameObject
 
   def initialize(options = {})
     super
+    self.input = {:holding_up     => :start_vertical_engine,
+                  :released_up    => :stop_vertical_engine,
+                  :holding_right  => :start_right_engine,
+                  :released_right => :stop_right_engine
+    }
+
     refill
   end
 
   def stop_vertical_engine
     @engine_started = false
-    @image = Image["spaceship.png"]
+    @image          = Image["spaceship.png"]
   end
 
   def start_vertical_engine
-    @engine_started = true
-    @image = Image["spaceshipengineon.png"]
+    if @fuel > 0
+      @engine_started = true
+      @image          = Image["spaceshipengineon.png"]
+    end
   end
 
   def vertical_thrust
@@ -36,6 +44,7 @@ class Lem < Chingu::GameObject
 
   def update
     @fuel -= 1 if @engine_started
+    stop_vertical_engine if @fuel == 0
   end
 
   def refill

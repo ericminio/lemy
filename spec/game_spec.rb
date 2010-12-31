@@ -14,7 +14,7 @@ describe "Game" do
     @game.close
   end
 
-  specify "escape exists the game" do
+  specify "escape exits the game" do
     @game.input[:escape].first.should == @game.method(:exit)
   end
 
@@ -27,46 +27,56 @@ describe "Game" do
     @game.level.class.should == Level2
   end
 
-  specify "title indicates when level is completed" do
-    @game.level_done
-    @game.title.text.should == 'Level 1 completed'
-    @game.title.color.should == Color::GREEN
-  end
-
-  specify "next level availability mention is hidden" do
-    @game.next_level_available_mention.color.should == Color::BLACK
-  end
-
-  specify "indicates next level is available when level is done" do
-    @game.level_done
-    @game.next_level_available_mention.color.should == Color::GREEN
-  end
-
-  specify "hides the next level availability mention when level starts" do
-    @game.level_done
-    @game.activate_level(Level2.new)
-    @game.next_level_available_mention.color.should == Color::BLACK
-  end
-
-  specify "indicates title of activated level" do
+  specify "displays the title of the current level" do
     level = Level2.new
     @game.activate_level(level)
     @game.title.text.should == level.title
     @game.title.color.should == Color::WHITE
   end
 
-  specify "end of game if no more level" do
+  specify "displays when a level is done" do
+    @game.level_done
+    @game.title.text.should == 'Level 1 completed'
+    @game.title.color.should == Color::GREEN
+  end
+
+  specify "don't display next level availability mention at start" do
+    @game.next_level_available_mention.color.should == Color::BLACK
+  end
+
+  specify "displays next level availability when level is done" do
+    @game.level_done
+    @game.next_level_available_mention.color.should == Color::GREEN
+  end
+
+  specify "don't display next level availability mention when level starts" do
+    @game.level_done
+    @game.activate_level(Level2.new)
+    @game.next_level_available_mention.color.should == Color::BLACK
+  end
+
+  specify "display restart mention if end of game (if no more level)" do
     @game.levels = []
     @game.level_done
     @game.next_level_available_mention.color.should == Color::BLACK
     @game.restart_mention.color.should == Color::GREEN
   end
 
-  specify "restart mention is hidden when the game restart" do
+  specify "don't display restart mention when the game restart" do
     @game.levels = []
     @game.level_done
     @game.start
     @game.restart_mention.color.should == Color::BLACK
+  end
+
+  specify "displays when level is lost" do
+    level = Level2.new
+    @game.activate_level(level)
+    @game.level_lost
+
+    @game.title.text.should == level.title + ' lost'
+    @game.title.color.should == Color::RED
+    @game.restart_mention.color.should == Color::RED
   end
 
 

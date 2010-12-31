@@ -1,7 +1,7 @@
 class Lem < Chingu::GameObject
 
-  TANK_CAPACITY = 150
-  attr_accessor :fuel
+  TANK_CAPACITY = 200
+  attr_accessor :fuel, :engine_started
 
   def initialize(options = {})
     super

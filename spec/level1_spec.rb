@@ -10,6 +10,19 @@ def given_the_lem_is_on_the_platform(platform)
   keep_current_position
 end
 
+def given_the_engine_is_started
+  @lem.start_vertical_engine
+end
+
+def given_the_engine_is_stopped
+  @lem.stop_vertical_engine
+end
+
+def given_the_lem_is_not_in_the_target_platform
+  given_the_lem_is_on_the_platform(@target)
+  @lem.y -= 20
+end
+
 def keep_current_position
   @kept_position = {:x => @lem.x, :y => @lem.y}
 end
@@ -28,10 +41,11 @@ describe "Level1" do
     @game.close
   end
 
-  describe "discovering the game" do
+  describe "features" do
 
     before(:each) do
       @level  = Level1.new
+      @level.game = @game
 
       @lem    = @level.lem
       @start  = @level.start
@@ -43,17 +57,41 @@ describe "Level1" do
       @lem.input[:released_up_arrow].first.should == @lem.method(:stop_vertical_engine)
       @lem.input[:holding_right_arrow].first.should == @lem.method(:start_right_engine)
       @lem.input[:released_right_arrow].first.should == @lem.method(:stop_right_engine)
-
-      @level.input[:r].first.should == @level.method(:reset)
     end
 
-    specify "platforms should be visible" do
-      @level.platforms.each do |platform|
-        platform.x.should > 0
-        platform.y.should > 0
-        platform.x.should < 640
-        platform.y.should < 480
-      end
+    specify "lem should fall when the game starts" do
+      keep_current_position
+      @level.update
+      current_position[:y].should > @kept_position[:y]
+    end
+
+    specify "lem should move up when the engine is started" do
+      @lem.start_vertical_engine
+      keep_current_position
+      @level.update
+      current_position[:y].should < @kept_position[:y]
+    end
+
+
+
+    specify "lem should fall unless landed on a platform" do
+      given_the_lem_is_on_the_platform(@start)
+      @level.update
+      current_position.should == @kept_position
+    end
+
+    specify "lem can take off from a platform" do
+      given_the_lem_is_on_the_platform(@start)
+      @lem.start_vertical_engine
+      @level.update
+      current_position[:y].should < @kept_position[:y]
+    end
+
+
+
+
+    specify "title" do
+      @level.title.should == "Level 1"
     end
 
     specify "start platform position" do
@@ -69,34 +107,9 @@ describe "Level1" do
       @start.y.should > @lem.y
     end
 
-    specify "lem should fall when the game starts" do
-      keep_current_position
-      @level.update
-      current_position[:y].should > @kept_position[:y]
-    end
-
-    specify "lem should fall unless landed on a platform" do
-      given_the_lem_is_on_the_platform(@start)
-      @level.update
-      current_position.should == @kept_position
-    end
-
-    specify "lem should move up when the engine is started" do
-      @lem.start_vertical_engine
-      keep_current_position
-      @level.update
-      current_position[:y].should < @kept_position[:y]
-    end
-
-    specify "lem can take off from a platform" do
-      given_the_lem_is_on_the_platform(@start)
-      @lem.start_vertical_engine
-      @level.update
-      current_position[:y].should < @kept_position[:y]
-    end
-
-    specify "there is 2 platforms" do
-      @level.platforms.size.should == 2
+    specify "target platform is far away" do
+      @target.x.should == 600
+      @target.y.should == 100
     end
 
     specify "lem can land on target platform" do
@@ -112,45 +125,44 @@ describe "Level1" do
       current_position[:x].should > @kept_position[:x]
     end
 
-    specify "reset re-fill the lem" do
-      @lem.should_receive(:refill)
-      @level.reset
-    end
 
   end
 
-  describe "gauge" do
+  describe "done" do
 
     before(:each) do
       @level  = Level1.new
-
+      @level.game = @game
+      
       @lem    = @level.lem
-      @gauge  = @level.gauge
-      @gauge_label = @level.gauge_label
+      @start  = @level.start
+      @target = @level.target
     end
 
-    specify "display" do
-      @gauge.x.should == 50
-      @gauge.y.should == 50
-      @gauge.size.should == 20
+    specify "when the lem is on the target platform with engine stopped" do
+      given_the_lem_is_on_the_platform(@start)
+      @level.update_done
+      @level.done.should be_false
 
-      @gauge_label.x.should == 5
-      @gauge_label.y.should == 50
-      @gauge_label.text.should == "Fuel:"
+      given_the_lem_is_on_the_platform(@target)
+      given_the_engine_is_started
+      @level.update_done
+      @level.done.should == false
+
+      given_the_lem_is_on_the_platform(@target)
+      given_the_engine_is_stopped
+      @level.update_done
+      @level.done.should == true
     end
 
-    specify "track lem's tank level" do
-      @lem.fuel = 50
-      @level.update
-      @gauge.text.should == "50"
-    end
-
-    specify "resets when fuel 0" do
-      @level.should_receive(:reset)
-      @lem.fuel = 0
-      @level.update
+    it "should remember when the level is done" do
+      @level.done = true
+      given_the_lem_is_not_in_the_target_platform
+      @level.update_done
+      @level.done.should be_true
     end
 
   end
+
 
 end

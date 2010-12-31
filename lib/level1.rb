@@ -30,6 +30,5 @@ class Level1 < Level
     @lost = (@lem.x >= @game.width) | (@lem.y >= @game.height)
   end
 
-
 end
 

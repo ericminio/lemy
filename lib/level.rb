@@ -40,6 +40,7 @@ class Level < Chingu::GameState
 
     @game.level_done if update_done
     @game.level_lost if update_lost
+
   end
 
   def update_done

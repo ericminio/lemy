@@ -55,7 +55,10 @@ class Level < Chingu::GameState
     end
     @lem.x += @lem.horizontal_thrust
 
-    @game.level_done if update_done
+    if update_done
+      @game.level_done
+      @lem.input = {}
+    end
     @game.level_lost if update_lost
 
   end

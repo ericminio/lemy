@@ -88,6 +88,7 @@ describe "Level" do
 
     before(:each) do
       @level = @game.level
+      @lem   = @level.lem
     end
 
     specify "notifies the game" do
@@ -96,12 +97,19 @@ describe "Level" do
       @level.update
     end
 
+    specify "fixes the lem" do
+      @level.should_receive(:update_done).and_return(true)
+      @level.update
+      @lem.input.should == {}
+    end
+
   end
 
   describe "lost" do
 
     before(:each) do
       @level = @game.level
+      @lem   = @level.lem
     end
 
     specify "notifies the game" do
@@ -109,6 +117,7 @@ describe "Level" do
       @game.should_receive(:level_lost)
       @level.update
     end
+
   end
 
   describe "reset" do

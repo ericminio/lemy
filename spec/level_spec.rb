@@ -34,6 +34,8 @@ describe "Level" do
       @level = @game.level
       @lem   = @level.lem
       @lem.stop_vertical_engine
+      @lem.stop_right_engine
+      @lem.stop_left_engine
     end
 
     specify "lem falls when the game starts" do
@@ -80,6 +82,13 @@ describe "Level" do
       keep_current_position
       @level.update
       current_position[:x].should > @kept_position[:x]
+    end
+
+    specify "lem moves left when left engine is started" do
+      @lem.start_left_engine
+      keep_current_position
+      @level.update
+      current_position[:x].should < @kept_position[:x]
     end
 
   end

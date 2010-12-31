@@ -8,7 +8,9 @@ class Lem < Chingu::GameObject
     self.input = {:holding_up     => :start_vertical_engine,
                   :released_up    => :stop_vertical_engine,
                   :holding_right  => :start_right_engine,
-                  :released_right => :stop_right_engine
+                  :released_right => :stop_right_engine,
+                  :holding_left  => :start_left_engine,
+                  :released_left => :stop_left_engine
     }
 
     refill
@@ -38,8 +40,19 @@ class Lem < Chingu::GameObject
     @right_engine_started = false
   end
 
+  def start_left_engine
+    @left_engine_started = true
+  end
+
+  def stop_left_engine
+    @left_engine_started = false
+  end
+
   def horizontal_thrust
-    @right_engine_started ? 3 : 0
+    thrust = 0
+    thrust += 3 if @right_engine_started
+    thrust -= 3 if @left_engine_started
+    thrust
   end
 
   def update

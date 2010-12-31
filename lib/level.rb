@@ -53,6 +53,7 @@ class Level < Chingu::GameState
     else
       @lem.y += delta_y
     end
+
     @lem.x += @lem.horizontal_thrust
 
     if update_done

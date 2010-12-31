@@ -20,6 +20,8 @@ describe "Lem" do
     lem.input[:released_up_arrow].first.should == lem.method(:stop_vertical_engine)
     lem.input[:holding_right_arrow].first.should == lem.method(:start_right_engine)
     lem.input[:released_right_arrow].first.should == lem.method(:stop_right_engine)
+    lem.input[:holding_left_arrow].first.should == lem.method(:start_left_engine)
+    lem.input[:released_left_arrow].first.should == lem.method(:stop_left_engine)
   end
 
   describe "Engines" do
@@ -47,10 +49,17 @@ describe "Lem" do
       @lem.vertical_thrust.should == 0
     end
 
-    specify "right thrust is 3 when right engine is started, 0 otherwise" do
+    specify "horizontal thrust is 3 when right engine is started, 0 otherwise" do
       @lem.start_right_engine
       @lem.horizontal_thrust.should == 3
       @lem.stop_right_engine
+      @lem.horizontal_thrust.should == 0
+    end
+
+    specify "horizontal thrust is -3 when left engine is started, 0 otherwise" do
+      @lem.start_left_engine
+      @lem.horizontal_thrust.should == -3
+      @lem.stop_left_engine
       @lem.horizontal_thrust.should == 0
     end
   end

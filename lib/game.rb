@@ -7,6 +7,7 @@ Image.autoload_dirs << File.dirname(__FILE__) + "/../media"
 require File.dirname(__FILE__) + '/level1'
 require File.dirname(__FILE__) + '/level2'
 require File.dirname(__FILE__) + '/level3'
+require File.dirname(__FILE__) + '/level4'
 
 class Game < Chingu::Window
 
@@ -29,7 +30,7 @@ class Game < Chingu::Window
 
   def start
     @restart_mention.color = Color::BLACK
-    @levels                = [Level3.new, Level2.new, Level1.new]
+    @levels                = [Level4.new, Level3.new, Level2.new, Level1.new]
     next_level
   end
 

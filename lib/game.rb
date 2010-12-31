@@ -20,7 +20,7 @@ class Game < Chingu::Window
         :text => "press (n) for next level", :size => 25, :x => 200, :y => 300, :color => Color::BLACK)
     center_text(@next_level_available_mention)
     @restart_mention = Chingu::Text.create(
-        :text => "press (r) to restart", :size => 25, :x => 200, :y => 250)
+        :text => "press (r) to retry", :size => 25, :x => 200, :y => 250)
     center_text(@restart_mention)
 
     start
@@ -36,16 +36,19 @@ class Game < Chingu::Window
     activate_level(@levels.pop)
   end
 
-  def activate_level(level)
-    @level       = level
-    self.input   = {:escape => :exit}
-    level.game   = self
-
-    @title.text  = level.title
+  def init_texts()
+    @title.text  = @level.title
     @title.color = Color::WHITE
     center_text(@title)
     @next_level_available_mention.color = Color::BLACK
+    @restart_mention.color = Color::BLACK
+  end
 
+  def activate_level(level)
+    self.input   = {:escape => :exit}
+    level.game   = self
+    @level       = level
+    init_texts()
     push_game_state(level)
   end
 
@@ -69,7 +72,13 @@ class Game < Chingu::Window
     center_text(@title)
     
     @restart_mention.color = Color::RED
-    self.input             = {:escape => :exit, :r => :start}
+    self.input             = {:escape => :exit, :r => :retry}
+  end
+
+  def retry
+    self.input   = {:escape => :exit}
+    init_texts()
+    @level.reset
   end
 
   def center_text(text)

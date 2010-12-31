@@ -131,5 +131,26 @@ describe "Level1" do
 
   end
 
+  describe "reset" do
+
+    before(:each) do
+      @level      = Level1.new
+      @level.game = @game
+      @lem        = @level.lem
+    end
+
+    specify "lem is above start platform" do
+      @level.reset
+      @lem.x.should == 50
+      @lem.y.should == 200
+    end
+
+    specify "fuel is not an issue" do
+      @level.reset
+      @lem.fuel.should == 10000000
+    end
+
+  end
+
 
 end

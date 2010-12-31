@@ -102,5 +102,18 @@ describe "Level" do
     end
   end
 
+  describe "reset" do
+
+    before(:each) do
+      @level = @game.level
+    end
+
+    specify "not lost and not done" do
+      @level.reset
+      @level.done.should be_false
+      @level.lost.should be_false
+    end
+  end
+
 
 end

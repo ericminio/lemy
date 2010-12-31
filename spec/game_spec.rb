@@ -79,5 +79,15 @@ describe "Game" do
     @game.restart_mention.color.should == Color::RED
   end
 
+  specify "can retry the level when lost" do
+    level = Level2.new
+    @game.activate_level(level)
+    @game.level_lost
+    level.should_receive(:reset)
+    @game.retry
+    @game.title.color.should == Color::WHITE
+    @game.restart_mention.color.should == Color::BLACK
+  end
+
 
 end

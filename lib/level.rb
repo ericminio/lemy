@@ -10,13 +10,12 @@ class Level < Chingu::GameState
   def initialize(options = {})
     super
     @lem = Lem.create(:x => 200, :y => 200, :image => "spaceship.png")
-    @lem.x, @lem.y = 50, 200
-    @lem.fuel  = 10000000
+  end
 
-    
+  def reset
     @done      = false
     @lost      = false
-    @platforms  = []
+    @platforms = []
   end
 
   def lem_landed

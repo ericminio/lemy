@@ -93,4 +93,21 @@ describe "Level2" do
   end
 
 
+  describe "reset" do
+
+    before(:each) do
+      @level       = Level2.new
+      @level.game  = @game
+
+      @lem         = @level.lem
+    end
+
+    specify "lem restarts with full tank" do
+      @level.reset
+      @lem.fuel.should == Lem::TANK_CAPACITY
+    end
+
+  end
+
+
 end

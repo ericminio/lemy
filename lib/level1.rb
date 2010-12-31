@@ -11,7 +11,15 @@ class Level1 < Level
     @title     = "Level 1"
     @start     = Platform.create(:x => 50, :y => 400)
     @target    = Platform.create(:x => 600, :y => 100)
-    @platforms << @start << @target
+    reset
+  end
+
+  def reset
+    super
+    @platforms = [@start, @target]
+    @lem.x = 50
+    @lem.y = 200
+    @lem.fuel = 10000000
   end
 
   def update_done

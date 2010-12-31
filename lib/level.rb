@@ -32,10 +32,27 @@ class Level < Chingu::GameState
     lem_landed ? 0 : VERTICAL_GRAVITY
   end
 
+  def will_land_on_platform?(platform, x, y, delta_y)
+    (y + @lem.height) < platform.y &&
+    (y + delta_y + @lem.height) > platform.y &&
+        x >= (platform.x - platform.width/2) &&
+        x <= (platform.x + platform.width/2)
+  end
+
+  def will_land_on_a_platform(x, y, delta_y)
+    @platforms.select { |platform| will_land_on_platform?(platform, x, y, delta_y) }.first
+  end
+
   def update
     super
 
-    @lem.y += vertical_gravity_effect - @lem.vertical_thrust
+    delta_y = vertical_gravity_effect - @lem.vertical_thrust
+    platform = will_land_on_a_platform(@lem.x, @lem.y, delta_y)
+    if platform
+      @lem.y = platform.y - @lem.height
+    else
+      @lem.y += delta_y
+    end
     @lem.x += @lem.horizontal_thrust
 
     @game.level_done if update_done

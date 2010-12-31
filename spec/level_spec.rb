@@ -57,6 +57,15 @@ describe "Level" do
       current_position.should == @kept_position
     end
 
+    specify "lem lands on platforms" do
+      platform = Platform.create(:x => 100, :y => 100)
+      @level.platforms << platform
+      given_the_lem_is_on_the_platform(platform)
+      @lem.y -= 1
+      @level.update
+      @lem.y.should == 100 - @lem.height
+    end
+
     specify "lem can take off from a platform" do
       platform = Platform.create(:x => 100, :y => 100)
       @level.platforms << platform

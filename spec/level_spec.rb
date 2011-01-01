@@ -1,22 +1,9 @@
 require "rspec"
 require 'chingu'
 
+require File.dirname(__FILE__) + '/helpers'
 require File.dirname(__FILE__) + '/../lib/game'
 require File.dirname(__FILE__) + '/../lib/level'
-
-def given_the_lem_is_on_the_platform(platform)
-  @lem.y = platform.y - @lem.height
-  @lem.x = platform.x
-  keep_current_position
-end
-
-def keep_current_position
-  @kept_position = {:x => @lem.x, :y => @lem.y}
-end
-
-def current_position
-  {:x => @lem.x, :y => @lem.y}
-end
 
 describe "Level" do
 
@@ -39,24 +26,25 @@ describe "Level" do
     end
 
     specify "lem falls when the game starts" do
-      keep_current_position
+      kept_position = {:x => @lem.x, :y => @lem.y}
       @level.update
-      current_position[:y].should > @kept_position[:y]
+      @lem.y.should > kept_position[:y]
     end
 
     specify "lem moves up when the engine is started" do
       @lem.start_vertical_engine
-      keep_current_position
+      kept_position = {:x => @lem.x, :y => @lem.y}
       @level.update
-      current_position[:y].should < @kept_position[:y]
+      @lem.y.should < kept_position[:y]
     end
 
     specify "lem falls unless landed on a platform" do
       platform = Platform.create(:x => 100, :y => 100)
       @level.platforms << platform
-      given_the_lem_is_on_the_platform(platform)
+      having_on_the_platform(platform, @lem)
+      kept_position = {:x => @lem.x, :y => @lem.y}
       @level.update
-      current_position.should == @kept_position
+      {:x => @lem.x, :y => @lem.y}.should == kept_position
     end
 
     specify "lem lands on platforms" do
@@ -71,24 +59,25 @@ describe "Level" do
     specify "lem can take off from a platform" do
       platform = Platform.create(:x => 100, :y => 100)
       @level.platforms << platform
-      given_the_lem_is_on_the_platform(platform)
+      having_on_the_platform(platform, @lem)
+      kept_position = {:x => @lem.x, :y => @lem.y}
       @lem.start_vertical_engine
       @level.update
-      current_position[:y].should < @kept_position[:y]
+      @lem.y.should < kept_position[:y]
     end
 
     specify "lem moves right when right engine is started" do
       @lem.start_right_engine
-      keep_current_position
+      kept_position = {:x => @lem.x, :y => @lem.y}
       @level.update
-      current_position[:x].should > @kept_position[:x]
+      @lem.x.should > kept_position[:x]
     end
 
     specify "lem moves left when left engine is started" do
       @lem.start_left_engine
-      keep_current_position
+      kept_position = {:x => @lem.x, :y => @lem.y}
       @level.update
-      current_position[:x].should < @kept_position[:x]
+      @lem.x.should < kept_position[:x]
     end
 
   end
@@ -110,6 +99,17 @@ describe "Level" do
       @level.should_receive(:update_done).and_return(true)
       @level.update
       @lem.input.should == {}
+    end
+
+    specify "stops all engines" do
+      @lem.start_vertical_engine
+      @lem.start_right_engine
+      @lem.start_left_engine
+      @level.should_receive(:update_done).and_return(true)
+      @level.update
+      @lem.vertical_engine_started.should be_false
+      @lem.left_engine_started.should be_false
+      @lem.right_engine_started.should be_false
     end
 
   end

@@ -1,7 +1,7 @@
 class Lem < Chingu::GameObject
 
   TANK_CAPACITY = 200
-  attr_accessor :fuel, :engine_started
+  attr_accessor :fuel, :vertical_engine_started, :left_engine_started, :right_engine_started
 
   def initialize(options = {})
     super
@@ -17,19 +17,19 @@ class Lem < Chingu::GameObject
   end
 
   def stop_vertical_engine
-    @engine_started = false
+    @vertical_engine_started = false
     @image          = Image["spaceship.png"]
   end
 
   def start_vertical_engine
     if @fuel > 0
-      @engine_started = true
+      @vertical_engine_started = true
       @image          = Image["spaceshipengineon.png"]
     end
   end
 
   def vertical_thrust
-    @engine_started ? 6 : 0;
+    @vertical_engine_started ? 6 : 0;
   end
 
   def start_right_engine
@@ -48,6 +48,12 @@ class Lem < Chingu::GameObject
     @left_engine_started = false
   end
 
+  def stop_all_engines
+    stop_left_engine
+    stop_right_engine
+    stop_vertical_engine
+  end
+
   def horizontal_thrust
     thrust = 0
     thrust += 3 if @right_engine_started
@@ -56,7 +62,7 @@ class Lem < Chingu::GameObject
   end
 
   def update
-    @fuel -= 1 if @engine_started
+    @fuel -= 1 if @vertical_engine_started
     stop_vertical_engine if @fuel == 0
   end
 

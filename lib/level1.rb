@@ -11,11 +11,16 @@ class Level1 < Level
     @title  = "Level 1"
     @start  = Platform.create(:x => 50, :y => 400)
     @target = Platform.create(:x => 600, :y => 100)
-    reset
+    init_level1
   end
 
   def reset
-    super
+    init_level1
+  end
+
+  def init_level1
+    @done      = false
+    @lost      = false
     @platforms = [@start, @target]
     @lem.x     = 50
     @lem.y     = 200
@@ -23,7 +28,7 @@ class Level1 < Level
   end
 
   def update_done
-    @done |= (lem_on?(@target) & !@lem.engine_started)
+    @done |= (lem_on?(@target) & !@lem.vertical_engine_started)
   end
 
   def update_lost

@@ -10,11 +10,19 @@ class Level3 < Level2
     super
     @title       = 'Level 3'
     @station     = Station.create(:x => 50, :y => 150)
-    reset
+    init_level3
   end
 
   def reset
-    super
+    init_level3
+  end
+
+  def init_level3
+    @done      = false
+    @lost      = false
+    @lem.x     = 50
+    @lem.y     = 200
+    @lem.fuel = Lem::TANK_CAPACITY
     @platforms = [@start, @target, @station]
     @lem.fuel = 100
   end

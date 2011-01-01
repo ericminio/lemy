@@ -1,35 +1,9 @@
 require "rspec"
 require 'chingu'
 
+require File.dirname(__FILE__) + '/helpers'
 require File.dirname(__FILE__) + '/../lib/game'
 require File.dirname(__FILE__) + '/../lib/level1'
-
-def given_the_lem_is_on_the_platform(platform)
-  @lem.y = platform.y - @lem.height
-  @lem.x = platform.x
-  keep_current_position
-end
-
-def given_the_lem_is_not_in_the_platform(platform)
-  given_the_lem_is_on_the_platform(platform)
-  @lem.y -= 1
-end
-
-def given_the_engine_is_started
-  @lem.start_vertical_engine
-end
-
-def given_the_engine_is_stopped
-  @lem.stop_vertical_engine
-end
-
-def keep_current_position
-  @kept_position = {:x => @lem.x, :y => @lem.y}
-end
-
-def current_position
-  {:x => @lem.x, :y => @lem.y}
-end
 
 describe "Level1" do
 
@@ -92,17 +66,17 @@ describe "Level1" do
     end
 
     specify "when the lem is on the target platform with engine stopped" do
-      given_the_lem_is_on_the_platform(@start)
+      having_on_the_platform(@start, @lem)
       @level.update_done
       @level.done.should be_false
 
-      given_the_lem_is_on_the_platform(@target)
-      given_the_engine_is_started
+      having_on_the_platform(@target, @lem)
+      @lem.start_vertical_engine
       @level.update_done
       @level.done.should == false
 
-      given_the_lem_is_on_the_platform(@target)
-      given_the_engine_is_stopped
+      having_on_the_platform(@target, @lem)
+      @lem.stop_vertical_engine
       @level.update_done
       @level.done.should == true
     end

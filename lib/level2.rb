@@ -11,11 +11,19 @@ class Level2 < Level1
     @title       = 'Level 2'
     @gauge       = Chingu::Text.create(:text => "gauge", :x => 50, :y => 50, :size =>20, :color => Color::AQUA)
     @gauge_label = Chingu::Text.create(:text => "Fuel:", :x => 5, :y => 50, :size =>20, :color => Color::AQUA)
-    reset
+    init_level2
   end
 
   def reset
-    super
+    init_level2
+  end
+
+  def init_level2
+    @done      = false
+    @lost      = false
+    @platforms = [@start, @target]
+    @lem.x     = 50
+    @lem.y     = 200
     @lem.fuel = Lem::TANK_CAPACITY
   end
 

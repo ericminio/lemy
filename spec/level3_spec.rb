@@ -40,7 +40,7 @@ describe "Level3" do
       @level.title.should == "Level 3"
     end
 
-    specify "lem starts with minimal tank" do
+    specify "lem starts with helf full tank" do
       @lem.fuel.should == start_with_fuel
     end
 
@@ -59,7 +59,7 @@ describe "Level3" do
     specify "there is a station platform" do
       @station.x.should == 50
       @station.y.should == 150
-      @station.color.should == Color::AQUA
+      @level.platforms.include?(@station).should be_true
     end
 
     specify "landing on the station refills" do

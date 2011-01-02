@@ -26,7 +26,7 @@ describe "Level4" do
     end
 
     specify "all features of level 1" do
-      Level3.new.is_a?(Level1).should be_true
+      Level4.new.is_a?(Level1).should be_true
     end
 
     specify "title" do

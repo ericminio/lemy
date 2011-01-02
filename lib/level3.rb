@@ -22,7 +22,6 @@ class Level3 < Level2
     @lost      = false
     @lem.x     = 50
     @lem.y     = 200
-    @lem.fuel = Lem::TANK_CAPACITY
     @platforms = [@start, @target, @station]
     @lem.fuel = 100
   end

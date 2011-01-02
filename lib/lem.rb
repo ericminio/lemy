@@ -54,6 +54,10 @@ class Lem < Chingu::GameObject
     stop_vertical_engine
   end
 
+  def all_engines_stopped?
+    !@left_engine_started & !@vertical_engine_started & !@right_engine_started
+  end
+
   def horizontal_thrust
     thrust = 0
     thrust += 3 if @right_engine_started

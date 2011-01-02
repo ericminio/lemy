@@ -1,12 +1,10 @@
-require File.dirname(__FILE__) + '/lem'
-require File.dirname(__FILE__) + '/platform'
 require File.dirname(__FILE__) + '/level1'
 require File.dirname(__FILE__) + '/passenger'
 require File.dirname(__FILE__) + '/seat'
 
 class Level4 < Level1
 
-  attr_accessor :gauge, :gauge_label, :passenger, :passenger_loaded, :seat
+  attr_accessor :seat, :passenger, :passenger_loaded
 
   has_traits :timer
 
@@ -27,7 +25,6 @@ class Level4 < Level1
     @lost             = false
     @lem.x            = 50
     @lem.y            = 200
-    @lem.fuel         = Lem::TANK_CAPACITY
     @platforms        = [@start, @target]
     @lem.fuel         = 10000000
     @passenger_loaded = false

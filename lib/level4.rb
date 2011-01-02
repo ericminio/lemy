@@ -4,12 +4,11 @@ require File.dirname(__FILE__) + '/level1'
 require File.dirname(__FILE__) + '/passenger'
 require File.dirname(__FILE__) + '/seat'
 
-include Chingu
-include Traits
-
 class Level4 < Level1
 
   attr_accessor :gauge, :gauge_label, :passenger, :passenger_loaded, :seat
+
+  has_traits :timer
 
   def initialize(options = {})
     super
@@ -60,6 +59,7 @@ class Level4 < Level1
     if update_done
       @passenger_loaded = false
       @passenger.x, @passenger.y = @lem.x + @lem.width/2 + @passenger.width/2 +5, @target.y - @passenger.height
+      during(2000) { @passenger.x += 1 }
     end
   end
 

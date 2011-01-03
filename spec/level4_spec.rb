@@ -1,7 +1,7 @@
 require "rspec"
 require 'chingu'
 
-require File.dirname(__FILE__) + '/helpers'
+require File.dirname(__FILE__) + '/../test/helpers'
 require File.dirname(__FILE__) + '/../lib/game'
 require File.dirname(__FILE__) + '/../lib/level4'
 

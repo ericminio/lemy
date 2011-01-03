@@ -1,0 +1,33 @@
+require "rspec"
+require 'chingu'
+
+require File.dirname(__FILE__) + '/../lib/game'
+require File.dirname(__FILE__) + '/../lib/level'
+
+describe "Generic Lost status update" do
+
+  before(:all) do
+    @game = Game.new
+  end
+
+  after(:all) do
+    @game.close
+  end
+
+  before(:each) do
+    @level = @game.level
+    @lem   = @level.lem
+  end
+
+  specify "lost status is checked each cycle" do
+    @level.should_receive(:update_lost)
+    @level.update
+  end
+
+  specify "notifies the game" do
+    @level.should_receive(:update_lost).and_return(true)
+    @game.should_receive(:level_lost)
+    @level.update
+  end
+
+end

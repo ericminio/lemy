@@ -1,7 +1,7 @@
 require "rspec"
 require 'chingu'
 
-require File.dirname(__FILE__) + '/helpers'
+require File.dirname(__FILE__) + '/../test/helpers'
 require File.dirname(__FILE__) + '/../lib/game'
 require File.dirname(__FILE__) + '/../lib/level1'
 
@@ -92,6 +92,8 @@ describe "Level1" do
     end
 
     specify "when lem out of screen" do
+      @level.lost.should be_false
+      
       @lem.x = @game.width
       @lem.y = 0
       @level.update_lost
@@ -111,16 +113,15 @@ describe "Level1" do
       @level      = Level1.new
       @level.game = @game
       @lem        = @level.lem
+      @level.reset
     end
 
     specify "lem is above start platform" do
-      @level.reset
       @lem.x.should == 50
       @lem.y.should == 200
     end
 
     specify "fuel is not an issue" do
-      @level.reset
       @lem.fuel.should == 10000000
     end
 

@@ -82,57 +82,14 @@ describe "Level" do
 
   end
 
-  describe "done" do
-
-    before(:each) do
-      @level = @game.level
-      @lem   = @level.lem
-    end
-
-    specify "notifies the game" do
-      @level.should_receive(:update_done).and_return(true)
-      @game.should_receive(:level_done)
-      @level.update
-    end
-
-    specify "fixes the lem" do
-      @level.should_receive(:update_done).and_return(true)
-      @level.update
-      @lem.input.should == {}
-    end
-
-    specify "stops all engines" do
-      @lem.start_vertical_engine
-      @lem.start_right_engine
-      @lem.start_left_engine
-      @level.should_receive(:update_done).and_return(true)
-      @level.update
-      @lem.vertical_engine_started.should be_false
-      @lem.left_engine_started.should be_false
-      @lem.right_engine_started.should be_false
-    end
-
-  end
-
-  describe "lost" do
-
-    before(:each) do
-      @level = @game.level
-      @lem   = @level.lem
-    end
-
-    specify "notifies the game" do
-      @level.should_receive(:update_lost).and_return(true)
-      @game.should_receive(:level_lost)
-      @level.update
-    end
-
-  end
-
   describe "reset" do
 
     before(:each) do
       @level = @game.level
+    end
+
+    specify "responds to :reset" do
+      @level.should respond_to(:reset)
     end
 
     specify "not lost and not done" do

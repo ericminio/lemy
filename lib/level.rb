@@ -10,6 +10,7 @@ class Level < Chingu::GameState
   def initialize(options = {})
     super
     @lem = Lem.create(:x => 200, :y => 200, :image => "spaceship.png")
+    @platforms = []
   end
 
   def update_done

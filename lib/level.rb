@@ -47,6 +47,7 @@ class Level < Chingu::GameState
     end
     if update_lost
       @game.level_lost
+      @lem.input = {}
     end
   end
 

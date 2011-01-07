@@ -30,4 +30,10 @@ describe "Generic Lost status update" do
     @level.update
   end
 
+  specify "the player cannot move the lem when level is lost" do
+    @level.should_receive(:update_lost).and_return(true)
+    @level.update
+    @lem.input.should == {}
+  end
+
 end

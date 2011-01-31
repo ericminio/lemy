@@ -43,7 +43,7 @@ describe "Level1" do
       @start.y.should > @lem.y
     end
 
-    specify "target platform is far away" do
+    specify "target platform is at he other side of the screen" do
       @target.x.should == 600
       @target.y.should == 100
     end

@@ -38,32 +38,13 @@ describe "Level" do
       @lem.y.should < kept_position[:y]
     end
 
-    specify "lem falls unless landed on a platform" do
+    specify "lem does not fall when landed on a platform" do
       platform = Platform.create(:x => 100, :y => 100)
       @level.platforms << platform
       having_on_the_platform(platform, @lem)
       kept_position = {:x => @lem.x, :y => @lem.y}
       @level.update
       {:x => @lem.x, :y => @lem.y}.should == kept_position
-    end
-
-    specify "lem lands on platforms" do
-      platform = Platform.create(:x => 100, :y => 100)
-      @level.platforms << platform
-      given_the_lem_is_on_the_platform(platform)
-      @lem.y -= 1
-      @level.update
-      @lem.y.should == 100 - @lem.height
-    end
-
-    specify "lem can take off from a platform" do
-      platform = Platform.create(:x => 100, :y => 100)
-      @level.platforms << platform
-      having_on_the_platform(platform, @lem)
-      kept_position = {:x => @lem.x, :y => @lem.y}
-      @lem.start_vertical_engine
-      @level.update
-      @lem.y.should < kept_position[:y]
     end
 
     specify "lem moves right when right engine is started" do

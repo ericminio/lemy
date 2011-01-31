@@ -4,7 +4,7 @@ require 'chingu'
 require File.dirname(__FILE__) + '/../lib/game'
 require File.dirname(__FILE__) + '/../lib/level'
 
-describe "Generic Lost status update" do
+describe "Lost status generic update" do
 
   before(:all) do
     @game = Game.new
@@ -24,7 +24,7 @@ describe "Generic Lost status update" do
     @level.update
   end
 
-  specify "notifies the game" do
+  specify "notifies the game when level is lost" do
     @level.should_receive(:update_lost).and_return(true)
     @game.should_receive(:level_lost)
     @level.update

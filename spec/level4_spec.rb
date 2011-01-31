@@ -137,13 +137,17 @@ describe "Level4" do
     end
 
     specify "passenger goes down the lem when lem on target platform" do
-      @lem.x = @passenger.x
-      @lem.y = @passenger.y
-      @level.update
+      load_passenger()
       having_on_the_platform(@target, @lem)
       @level.update
       @level.passenger_loaded.should be_false
       object_on_platform?(@passenger, @target).should be_true
+    end
+
+    def load_passenger
+      @lem.x = @passenger.x
+      @lem.y = @passenger.y
+      @level.update
     end
 
   end

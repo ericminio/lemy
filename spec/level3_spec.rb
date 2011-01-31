@@ -6,11 +6,6 @@ require File.dirname(__FILE__) + '/../lib/level2'
 require File.dirname(__FILE__) + '/../lib/level1'
 require File.dirname(__FILE__) + '/../lib/level3'
 
-def given_the_lem_is_on_the_platform(platform)
-  @lem.y = platform.y - @lem.height
-  @lem.x = platform.x
-end
-
 describe "Level3" do
 
   before(:all) do
@@ -21,7 +16,7 @@ describe "Level3" do
     @game.close
   end
 
-  start_with_fuel = 100
+  start_fuel_level = Lem::TANK_CAPACITY / 2
 
   describe "features" do
 
@@ -40,30 +35,19 @@ describe "Level3" do
       @level.title.should == "Level 3"
     end
 
-    specify "lem starts with helf full tank" do
-      @lem.fuel.should == start_with_fuel
-    end
-
-  end
-
-  describe "fuel station" do
-
-    before(:each) do
-      @level      = Level3.new
-      @level.game = @game
-
-      @lem        = @level.lem
-      @station    = @level.station
+    specify "lem starts with half full tank" do
+      @lem.fuel.should == start_fuel_level
     end
 
     specify "there is a station platform" do
+      @station = @level.station
       @station.x.should == 50
       @station.y.should == 150
       @level.platforms.include?(@station).should be_true
     end
 
     specify "landing on the station refills" do
-      given_the_lem_is_on_the_platform(@station)
+      having_on_the_platform(@level.station, @lem)
       @level.update
       @lem.fuel.should == Lem::TANK_CAPACITY
     end
@@ -104,7 +88,6 @@ describe "Level3" do
 
   end
 
-
   describe "reset" do
 
     before(:each) do
@@ -114,12 +97,11 @@ describe "Level3" do
       @lem        = @level.lem
     end
 
-    specify "lem restarts with minimal tank" do
+    specify "lem restarts with half full tank" do
       @level.reset
-      @lem.fuel.should == start_with_fuel
+      @lem.fuel.should == start_fuel_level
     end
 
   end
-
 
 end

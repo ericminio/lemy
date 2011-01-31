@@ -49,20 +49,20 @@ describe "Game" do
     @game.next_level_available_mention.color.should == Color::GREEN
   end
 
-  specify "don't display next level availability mention when level starts" do
+  specify "hides next level availability mention when level starts" do
     @game.level_done
     @game.activate_level(Level2.new)
     @game.next_level_available_mention.color.should == Color::BLACK
   end
 
-  specify "display restart mention if end of game (if no more level)" do
+  specify "display restart mention if end of game (no more level)" do
     @game.levels = []
     @game.level_done
     @game.next_level_available_mention.color.should == Color::BLACK
     @game.restart_mention.color.should == Color::GREEN
   end
 
-  specify "don't display restart mention when the game restart" do
+  specify "hides restart mention when the game restart" do
     @game.levels = []
     @game.level_done
     @game.start

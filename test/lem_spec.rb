@@ -74,7 +74,7 @@ describe "Lem" do
       @lem.fuel.should == Lem::TANK_CAPACITY
     end
 
-    specify "decreases when engine is started" do
+    specify "decreases by 1 when engine is started" do
       @lem.start_vertical_engine
       @lem.update
       @lem.fuel.should == Lem::TANK_CAPACITY - 1

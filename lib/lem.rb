@@ -5,6 +5,11 @@ class Lem < Chingu::GameObject
 
   def initialize(options = {})
     super
+    init_inputs
+    refill
+  end
+
+  def init_inputs
     self.input = {:holding_up     => :start_vertical_engine,
                   :released_up    => :stop_vertical_engine,
                   :holding_right  => :start_right_engine,
@@ -12,8 +17,6 @@ class Lem < Chingu::GameObject
                   :holding_left  => :start_left_engine,
                   :released_left => :stop_left_engine
     }
-
-    refill
   end
 
   def stop_vertical_engine

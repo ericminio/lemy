@@ -35,12 +35,9 @@ describe "Level1" do
       @start.y.should == 400
     end
 
-    specify "lem and start platform are aligned" do
-      @lem.x.should == @start.x
-    end
-
-    specify "start platform is below lem" do
-      @start.y.should > @lem.y
+    specify "lem start position" do
+      @lem.x.should == 50
+      @lem.y.should == 200
     end
 
     specify "target platform is at he other side of the screen" do
@@ -65,20 +62,26 @@ describe "Level1" do
       @target     = @level.target
     end
 
-    specify "when the lem is on the target platform with engine stopped" do
-      having_on_the_platform(@start, @lem)
+    specify "when the lem is on the target platform" do
+      Having.object(@lem).on_the_platform(@target)
       @level.update_done
-      @level.done.should be_false
 
-      having_on_the_platform(@target, @lem)
+      @level.done.should be_true
+    end
+
+    specify "unless the lem is not on the target platform" do
+      NotHaving.object(@lem).on_the_platform(@target)
+      @level.update_done
+
+      @level.done.should be_false
+    end
+
+    specify "when the lem is on the target platform unless engine is started" do
+      Having.object(@lem).on_the_platform(@target)
       @lem.start_vertical_engine
       @level.update_done
-      @level.done.should == false
 
-      having_on_the_platform(@target, @lem)
-      @lem.stop_vertical_engine
-      @level.update_done
-      @level.done.should == true
+      @level.done.should be_false
     end
 
   end
@@ -89,16 +92,17 @@ describe "Level1" do
       @level      = Level1.new
       @level.game = @game
       @lem        = @level.lem
+      @level.lost.should be_false
     end
 
-    specify "when lem out of screen" do
-      @level.lost.should be_false
-      
+    specify "when lem is beyond the right border of the screen" do
       @lem.x = @game.width
       @lem.y = 0
       @level.update_lost
       @level.lost.should be_true
+    end
 
+    specify "when lem is below the bottom border of the screen" do
       @lem.x = 0
       @lem.y = @game.height
       @level.update_lost
@@ -116,7 +120,7 @@ describe "Level1" do
       @level.reset
     end
 
-    specify "lem is above start platform" do
+    specify "lem start position" do
       @lem.x.should == 50
       @lem.y.should == 200
     end

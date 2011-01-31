@@ -14,6 +14,10 @@ describe "Game" do
     @game.close
   end
 
+  specify "game levels" do
+    #@game.all_levels.should == [Level6.new, Level5.new, Level4.new, Level3.new, Level2.new, Level1.new]
+  end
+
   specify "escape exits the game" do
     @game.input[:escape].first.should == @game.method(:exit)
   end

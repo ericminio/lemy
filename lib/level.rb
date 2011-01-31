@@ -13,6 +13,10 @@ class Level < Chingu::GameState
     @platforms = []
   end
 
+  def reset
+    @lem.init_inputs
+  end
+
   def update_done
     @done = false
   end
@@ -41,13 +45,14 @@ class Level < Chingu::GameState
 
   def update_done_and_lost
     if update_done
-      @game.level_done
       @lem.input = {}
       @lem.stop_all_engines
+      @game.level_done
     end
     if update_lost
-      @game.level_lost
       @lem.input = {}
+      @lem.stop_all_engines
+      @game.level_lost
     end
   end
 

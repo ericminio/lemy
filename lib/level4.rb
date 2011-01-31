@@ -17,6 +17,7 @@ class Level4 < Level1
   end
 
   def reset
+    super
     init_level4
   end
 

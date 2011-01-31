@@ -9,6 +9,7 @@ require File.dirname(__FILE__) + '/level2'
 require File.dirname(__FILE__) + '/level3'
 require File.dirname(__FILE__) + '/level4'
 require File.dirname(__FILE__) + '/level5'
+require File.dirname(__FILE__) + '/level6'
 
 class Game < Chingu::Window
 
@@ -29,9 +30,13 @@ class Game < Chingu::Window
     start
   end
 
+  def all_levels
+    [Level6.new, Level5.new, Level4.new, Level3.new, Level2.new, Level1.new]
+  end
+
   def start
     @restart_mention.color = Color::BLACK
-    @levels                = [Level5.new, Level4.new, Level3.new, Level2.new, Level1.new]
+    @levels                = all_levels
     next_level
   end
 
@@ -44,13 +49,13 @@ class Game < Chingu::Window
     @title.color = Color::WHITE
     center_text(@title)
     @next_level_available_mention.color = Color::BLACK
-    @restart_mention.color = Color::BLACK
+    @restart_mention.color              = Color::BLACK
   end
 
   def activate_level(level)
-    self.input   = {:escape => :exit}
-    level.game   = self
-    @level       = level
+    self.input = {:escape => :exit}
+    level.game = self
+    @level     = level
     init_texts()
     push_game_state(level)
   end
@@ -73,13 +78,13 @@ class Game < Chingu::Window
     @title.text  = @level.title + ' lost'
     @title.color = Color::RED
     center_text(@title)
-    
+
     @restart_mention.color = Color::RED
     self.input             = {:escape => :exit, :r => :retry}
   end
 
   def retry
-    self.input   = {:escape => :exit}
+    self.input = {:escape => :exit}
     init_texts()
     @level.reset
   end

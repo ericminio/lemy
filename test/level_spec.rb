@@ -78,6 +78,19 @@ describe "Level" do
       @level.done.should be_false
       @level.lost.should be_false
     end
+
+    specify "player can move the lem again" do
+      lem = @level.lem
+      lem.input = {}
+      @level.reset
+      lem.input[:holding_up_arrow].first.should == lem.method(:start_vertical_engine)
+      lem.input[:released_up_arrow].first.should == lem.method(:stop_vertical_engine)
+      lem.input[:holding_right_arrow].first.should == lem.method(:start_right_engine)
+      lem.input[:released_right_arrow].first.should == lem.method(:stop_right_engine)
+      lem.input[:holding_left_arrow].first.should == lem.method(:start_left_engine)
+      lem.input[:released_left_arrow].first.should == lem.method(:stop_left_engine)
+    end
+
   end
 
 

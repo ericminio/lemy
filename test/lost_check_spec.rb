@@ -36,4 +36,16 @@ describe "Lost status generic update" do
     @lem.input.should == {}
   end
 
+  specify "stops all engines when level is lost" do
+    @lem.start_vertical_engine
+    @lem.start_right_engine
+    @lem.start_left_engine
+    @level.should_receive(:update_lost).and_return(true)
+
+    @level.update
+    @lem.vertical_engine_started.should be_false
+    @lem.left_engine_started.should be_false
+    @lem.right_engine_started.should be_false
+  end
+
 end

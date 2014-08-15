@@ -1,2 +1,6 @@
+given ruby 1.9.2 is installed
+
+then, run the following:
+bundle install
 cd bin
 ruby lemydash.rb

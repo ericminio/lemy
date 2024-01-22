@@ -43,9 +43,9 @@ describe "Lost status generic update" do
     @level.should_receive(:update_lost).and_return(true)
 
     @level.update
-    @lem.vertical_engine_started.should be_false
-    @lem.left_engine_started.should be_false
-    @lem.right_engine_started.should be_false
+    @lem.vertical_engine_started.should be_falsey
+    @lem.left_engine_started.should be_falsey
+    @lem.right_engine_started.should be_falsey
   end
 
 end

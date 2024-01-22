@@ -75,8 +75,8 @@ describe "Level" do
 
     specify "not lost and not done" do
       @level.reset
-      @level.done.should be_false
-      @level.lost.should be_false
+      @level.done.should be_falsey
+      @level.lost.should be_falsey
     end
 
     specify "player can move the lem again" do

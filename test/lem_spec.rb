@@ -104,13 +104,13 @@ describe "Lem" do
       @lem.start_vertical_engine
       @lem.fuel = 1
       @lem.update
-      @lem.vertical_engine_started.should be_false
+      @lem.vertical_engine_started.should be_falsey
     end
 
     specify "cannot start engine when fuel is empty" do
       @lem.fuel = 0
       @lem.start_vertical_engine
-      @lem.vertical_engine_started.should be_false
+      @lem.vertical_engine_started.should be_falsey
     end
 
   end

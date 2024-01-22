@@ -28,7 +28,7 @@ describe "Level3" do
     end
 
     specify "all features of level 2" do
-      Level3.new.is_a?(Level2).should be_true
+      Level3.new.is_a?(Level2).should be_truthy
     end
 
     specify "title" do
@@ -43,7 +43,7 @@ describe "Level3" do
       @station = @level.station
       @station.x.should == 50
       @station.y.should == 150
-      @level.platforms.include?(@station).should be_true
+      @level.platforms.include?(@station).should be_truthy
     end
 
     specify "landing on the station refills" do
@@ -69,12 +69,12 @@ describe "Level3" do
       @lem.x    = @game.width
       @lem.y    = 0
       @level.update_lost
-      @level.lost.should be_true
+      @level.lost.should be_truthy
 
       @lem.x = 0
       @lem.y = @game.height
       @level.update_lost
-      @level.lost.should be_true
+      @level.lost.should be_truthy
     end
 
     specify "only when fuel is empty" do
@@ -83,7 +83,7 @@ describe "Level3" do
       @lem.x    = @game.width
       @lem.y    = @game.height
       @level.update_lost
-      @level.lost.should be_false
+      @level.lost.should be_falsey
     end
 
   end

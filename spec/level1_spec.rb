@@ -66,14 +66,14 @@ describe "Level1" do
       Having.object(@lem).on_the_platform(@target)
       @level.update_done
 
-      @level.done.should be_true
+      @level.done.should be_truthy
     end
 
     specify "unless the lem is not on the target platform" do
       NotHaving.object(@lem).on_the_platform(@target)
       @level.update_done
 
-      @level.done.should be_false
+      @level.done.should be_falsey
     end
 
     specify "when the lem is on the target platform unless engine is started" do
@@ -81,7 +81,7 @@ describe "Level1" do
       @lem.start_vertical_engine
       @level.update_done
 
-      @level.done.should be_false
+      @level.done.should be_falsey
     end
 
   end
@@ -92,21 +92,21 @@ describe "Level1" do
       @level      = Level1.new
       @level.game = @game
       @lem        = @level.lem
-      @level.lost.should be_false
+      @level.lost.should be_falsey
     end
 
     specify "when lem is beyond the right border of the screen" do
       @lem.x = @game.width
       @lem.y = 0
       @level.update_lost
-      @level.lost.should be_true
+      @level.lost.should be_truthy
     end
 
     specify "when lem is below the bottom border of the screen" do
       @lem.x = 0
       @lem.y = @game.height
       @level.update_lost
-      @level.lost.should be_true
+      @level.lost.should be_truthy
     end
 
   end

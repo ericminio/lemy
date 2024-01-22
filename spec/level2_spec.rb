@@ -27,7 +27,7 @@ describe "Level2" do
     end
 
     specify "all features of level 1" do
-      Level2.new.is_a?(Level1).should be_true
+      Level2.new.is_a?(Level1).should be_truthy
     end
 
     specify "title" do
@@ -73,12 +73,12 @@ describe "Level2" do
       @lem.x    = @game.width
       @lem.y    = 0
       @level.update_lost
-      @level.lost.should be_true
+      @level.lost.should be_truthy
 
       @lem.x = 0
       @lem.y = @game.height
       @level.update_lost
-      @level.lost.should be_true
+      @level.lost.should be_truthy
     end
 
     specify "only when fuel is empty" do
@@ -87,7 +87,7 @@ describe "Level2" do
       @lem.x    = @game.width
       @lem.y    = @game.height
       @level.update_lost
-      @level.lost.should be_false
+      @level.lost.should be_falsey
     end
 
   end

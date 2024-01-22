@@ -8,7 +8,7 @@ class Platform < Chingu::GameObject
     super
     @width  = 100
     @height = 20
-    @color  = Gosu::Color::Constant.new(0xffff8800)
+    @color  = Gosu::Color.argb(0xffff8800)
   end
 
   def draw

@@ -26,7 +26,7 @@ describe "Level4" do
     end
 
     specify "all features of level 1" do
-      Level4.new.is_a?(Level1).should be_true
+      Level4.new.is_a?(Level1).should be_truthy
     end
 
     specify "title" do
@@ -59,21 +59,21 @@ describe "Level4" do
     end
 
     specify "is waiting on start platform" do
-      object_on_platform?(@passenger, @level.start).should be_true
+      object_on_platform?(@passenger, @level.start).should be_truthy
       @level.passenger.x.should == (@lem.x - @lem.width - 10)
     end
 
     specify "loading the passenger in the lem" do
       @lem.x = @passenger.x + 1
       @lem.y = @passenger.y
-      @level.update_passenger_loaded.should be_true
+      @level.update_passenger_loaded.should be_truthy
     end
 
     specify "the passenger is no longer on the start platform after being loaded" do
       @lem.x = @passenger.x + 1
       @lem.y = @passenger.y
       @level.update
-      object_on_platform?(@passenger, @start).should be_false
+      object_on_platform?(@passenger, @start).should be_falsey
     end
 
     specify "loaded passenger stays in the lem" do
@@ -81,7 +81,7 @@ describe "Level4" do
       @lem.y = @passenger.y
       @level.update
       @level.update
-      @level.update_passenger_loaded.should be_true
+      @level.update_passenger_loaded.should be_truthy
     end
 
   end
@@ -103,7 +103,7 @@ describe "Level4" do
     end
 
     specify "the passenger is on the seat when loaded in the lem" do
-      @level.stub!(:update_passenger_loaded).and_return(true)
+      @level.stub(:update_passenger_loaded).and_return(true)
       @level.update
       @passenger.x.should == @seat.x
       @passenger.y.should == @seat.y
@@ -140,8 +140,8 @@ describe "Level4" do
       load_passenger()
       having_on_the_platform(@target, @lem)
       @level.update
-      @level.passenger_loaded.should be_false
-      object_on_platform?(@passenger, @target).should be_true
+      @level.passenger_loaded.should be_falsey
+      object_on_platform?(@passenger, @target).should be_truthy
     end
 
     def load_passenger
@@ -165,12 +165,12 @@ describe "Level4" do
       @lem.x = @game.width
       @lem.y = 0
       @level.update_lost
-      @level.lost.should be_true
+      @level.lost.should be_truthy
 
       @lem.x = 0
       @lem.y = @game.height
       @level.update_lost
-      @level.lost.should be_true
+      @level.lost.should be_truthy
     end
 
   end
@@ -198,11 +198,11 @@ describe "Level4" do
     end
 
     specify "lem is empty" do
-      @level.passenger_loaded.should be_false
+      @level.passenger_loaded.should be_falsey
     end
 
     specify "passenger is on the start platform" do
-      object_on_platform?(@passenger, @start).should be_true
+      object_on_platform?(@passenger, @start).should be_truthy
     end
 
   end

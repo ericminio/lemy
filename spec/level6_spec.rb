@@ -27,7 +27,7 @@ describe "Level6" do
     end
 
     specify "all features of level 5" do
-      Level6.new.is_a?(Level5).should be_true
+      Level6.new.is_a?(Level5).should be_truthy
     end
 
     specify "title" do
@@ -42,7 +42,7 @@ describe "Level6" do
     specify "lost if lem collides the monster" do
       @lem.x, @lem.y = @monster.x, @monster.y
       @level.update_lost
-      @level.lost.should be_true
+      @level.lost.should be_truthy
     end
 
     specify "reset" do
